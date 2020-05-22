@@ -49,9 +49,10 @@ function App() {
     }).catch(response => {
       setLoading(false)
     })
-      setTimeout(function() { 
-        setLoading(false)
-      }, 3000);
+
+    const delay = (ms) => new Promise(r => setTimeout(r, ms))
+    await delay(3000)
+    setLoading(false)
   }
   return (
     <div>
