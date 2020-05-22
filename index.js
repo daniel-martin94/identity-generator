@@ -19,27 +19,51 @@ We should display the information asked, address, DOB, age, and email
 */
 function App() {
 
-  const [gender, updateGender] = useState(null)
+  const [gender, updateGender] = useState("male")
   const [age, updateAge] = useState(null)
   const [location, updateLocation] = useState("US")
 
-  const [use, updateUser] = useState({})
+  const [user, updateUser] = useState(null)
 
   const [loading, setLoading] = useState(false)
 
   function changeAge(min, max) {
     updateAge(Math.floor(Math.random() * (max - min) + min))
   }
+
+  async function retrieveID() {
+    let api = 'https://randomuser.me/api/?gender='+ gender + '&nat=' + location + '&age=' + age
+    setLoading(true);
+    let user = null
+    await axios.get(api).then(response => {
+      user = {
+        "name": response.data.results[0].name.first + " " +  response.data.results[0].name.last,
+        "age": response.data.results[0].dob.age,
+        "dob": response.data.results[0].dob.date,
+        "phone": response.data.results[0].phone,
+        "email": response.data.results[0].email,
+        "city": response.data.results[0].location.city,
+         "country": response.data.results[0].location.country,
+          "state": response.data.results[0].location.state,
+      }
+    }).catch(response => {
+      setLoading(false)
+    })
+      setTimeout(function() { 
+        setLoading(false)
+      }, 3000);
+  }
   return (
     <div>
+      {loading == false && user == null && <div>
       <p>
         Let's generate a new identity
         </p>
       <div>
         <label for="gender">Choose a gender: </label>
           <select id="gender" value={gender} onChange={(e) => updateGender(e.target.value)}>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
         </select>
       </div>
       <br></br>
@@ -61,6 +85,11 @@ function App() {
           <option selected value="US">United States (US)</option>
         </select>
       </div>
+       <br></br>
+      {age && location && gender && 
+        <button onClick={() => retrieveID()}>Submit</button>
+      }
+      </div>}
     </div>
   );
 }
