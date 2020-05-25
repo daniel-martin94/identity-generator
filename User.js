@@ -24,7 +24,7 @@ const User = (props) => {
 
   useEffect(()=>{
     let readableBirthday = new Date(user.dob)
-    updateBirthday(months[readableBirthday.getMonth()] + " " + readableBirthday.getDay() + ", " + readableBirthday.getFullYear())
+    updateBirthday(months[readableBirthday.getMonth()] + " " + readableBirthday.getUTCDate() + ", " + readableBirthday.getUTCFullYear())
   }, [])
   return (
     <Container>
