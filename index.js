@@ -3,6 +3,8 @@ import axios from 'axios'
 import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
+import User from './User'
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 
 
 /*
@@ -36,6 +38,7 @@ function App() {
     setLoading(true);
     let user = null
     await axios.get(api).then(response => {
+      console.log(response)
       user = {
         "name": response.data.results[0].name.first + " " +  response.data.results[0].name.last,
         "age": response.data.results[0].dob.age,
@@ -43,8 +46,10 @@ function App() {
         "phone": response.data.results[0].phone,
         "email": response.data.results[0].email,
         "city": response.data.results[0].location.city,
-         "country": response.data.results[0].location.country,
-          "state": response.data.results[0].location.state,
+        "country": response.data.results[0].location.country,
+        "state": response.data.results[0].location.state,
+        "photo": response.data.results[0].picture.large,
+        "id": response.data.results[0].id.value
       }
     }).catch(response => {
       setLoading(false)
@@ -53,6 +58,7 @@ function App() {
     const delay = (ms) => new Promise(r => setTimeout(r, ms))
     await delay(3000)
     setLoading(false)
+    updateUser(user)
   }
   return (
     <div>
@@ -91,6 +97,11 @@ function App() {
         <button onClick={() => retrieveID()}>Submit</button>
       }
       </div>}
+
+      {user != null && loading === false && 
+        <User user={user}></User>
+      }
+
     </div>
   );
 }
