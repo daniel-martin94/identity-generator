@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import User from './User'
-import { Dimmer, Loader, Image, Segment, Container } from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment, Container} from 'semantic-ui-react'
 
 
 /*
@@ -34,6 +34,7 @@ function App() {
   }
 
   async function retrieveID() {
+    updateUser(null)
     let api = 'https://randomuser.me/api/?gender=' + gender + '&nat=' + location + '&age=' + age
     setLoading(true);
     let tempUser = null
@@ -104,9 +105,11 @@ function App() {
       }
 
       {user != null && loading === false &&
+        <div>
         <User user={user}></User>
+        <button onClick={() => retrieveID()}> Generate New User </button>
+        </div>
       }
-
     </Container>
   );
 }
