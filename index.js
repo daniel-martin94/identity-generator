@@ -26,14 +26,9 @@ function App() {
   const [age, updateAge] = useState(null)
   const [location, updateLocation] = useState("US")
   const [value, setValue] = useState(18);
-
   const [user, updateUser] = useState(null)
 
   const [loading, setLoading] = useState(false)
-
-  function changeAge(min, max) {
-    updateAge(Math.floor(Math.random() * (max - min) + min))
-  }
 
   async function retrieveID() {
     updateUser(null)
