@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import User from './User'
-import { Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon} from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon } from 'semantic-ui-react'
 import { Slider } from "react-semantic-ui-range";
 
 
@@ -62,33 +62,34 @@ function App() {
     setLoading(false)
     updateUser(tempUser)
   }
-  console.log(value)
-    const sliderSettings = {
+  console.log(age)
+  const sliderSettings = {
     start: 18,
     min: 18,
     max: 115,
     step: 1,
     onChange: value => {
-      setValue(value);
+      updateAge(value);
+      setValue(value)
     }
   };
   return (
     <Container>
       {loading == false && user == null && <div>
         <div styles="padding:10px"></div>
-        <Header as="h2">Let's generate a new identity</Header>
+        <Header as="h2">Identity Generator</Header>
         <Divider />
         <div>
-            <Header
-              as='h3'
-              content='Gender'
-            />
-          <Button basic={!(gender == "male")} color='blue' onClick={()=> updateGender("male")}>
+          <Header
+            as='h3'
+            content='Gender'
+          />
+          <Button basic={!(gender == "male")} color='blue' onClick={() => updateGender("male")}>
             <Icon name="male">
             </Icon>
             Male
           </Button>
-          <Button basic={!(gender == "female")} color='pink' onClick={()=> updateGender("female")}>
+          <Button basic={!(gender == "female")} color='pink' onClick={() => updateGender("female")}>
             <Icon name="female">
             </Icon>
             Female
@@ -96,13 +97,11 @@ function App() {
         </div>
         <br></br>
         <div>
-          <label>Choose an age range: </label>
-          <Slider value={value} color="red" settings={sliderSettings} />
-          <button onClick={(e) => changeAge(18, 25)}>18 to 25</button>
-          <button onClick={(e) => changeAge(26, 35)}>26 to 35</button>
-          <button onClick={(e) => changeAge(36, 55)}>36 to 55</button>
-          <button onClick={(e) => changeAge(56, 65)}>56 to 65</button>
-          <button onClick={(e) => changeAge(66, 115)}>66 to 115</button>
+          <Header
+            as='h3'
+            content='Gender'
+          />
+          <Slider value={value} color="blue" settings={sliderSettings} />
         </div>
         <br></br>
         <div>
@@ -121,15 +120,15 @@ function App() {
       </div>}
 
       {user === null && loading === true &&
-          <Dimmer active inverted>
-            <Loader inverted>Generating a new identity...</Loader>
-          </Dimmer>
+        <Dimmer active inverted>
+          <Loader inverted>Generating a new identity...</Loader>
+        </Dimmer>
       }
 
       {user != null && loading === false &&
         <div>
-        <User user={user}></User>
-        <button onClick={() => retrieveID()}> Generate New User </button>
+          <User user={user}></User>
+          <button onClick={() => retrieveID()}> Generate New User </button>
         </div>
       }
     </Container>
