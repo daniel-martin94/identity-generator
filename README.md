@@ -1,5 +1,3 @@
-# react-obj68m
-
 # Welcome to the Identity Generator Repo :id:
 
 This is a code repo for an identity generator
