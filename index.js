@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import User from './User'
-import { Dimmer, Loader, Image, Segment, Container} from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon} from 'semantic-ui-react'
 
 
 /*
@@ -21,7 +21,7 @@ We should display the information asked, address, DOB, age, and email
 */
 function App() {
 
-  const [gender, updateGender] = useState("male")
+  const [gender, updateGender] = useState("")
   const [age, updateAge] = useState(null)
   const [location, updateLocation] = useState("US")
 
@@ -60,18 +60,28 @@ function App() {
     setLoading(false)
     updateUser(tempUser)
   }
+  console.log(gender)
   return (
     <Container>
       {loading == false && user == null && <div>
-        <p>
-          Let's generate a new identity
-        </p>
+        <div styles="padding:10px"></div>
+        <Header as="h2">Let's generate a new identity</Header>
+        <Divider />
         <div>
-          <label for="gender">Choose a gender: </label>
-          <select id="gender" value={gender} onChange={(e) => updateGender(e.target.value)}>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+            <Header
+              as='h3'
+              content='Gender'
+            />
+          <Button basic={!(gender == "male")} color='blue' onClick={()=> updateGender("male")}>
+            <Icon name="male">
+            </Icon>
+            Male
+          </Button>
+          <Button basic={!(gender == "female")} color='pink' onClick={()=> updateGender("female")}>
+            <Icon name="female">
+            </Icon>
+            Female
+          </Button>
         </div>
         <br></br>
         <div>
