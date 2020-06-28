@@ -1,8 +1,8 @@
 # react-obj68m
 
-# Welcome to the Dream Taco Shop Code Repo :id:
+# Welcome to the Identity Generator Repo :id:
 
-This is a code repo for a identity generator
+This is a code repo for an identity generator
 
 This application built using [React](https://reactjs.org/) and a [free identity api](https://randomuser.me/)
   
