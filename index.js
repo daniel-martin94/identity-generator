@@ -4,34 +4,24 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import User from './User'
-import { Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon } from 'semantic-ui-react'
+import { Transition, Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon, Grid, Select, Button } from 'semantic-ui-react'
 import { Slider } from "react-semantic-ui-range";
 
-
-/*
-The purpose of this app is to gather basic information from the user
-(gender, age, and desired location)to generate a new id for them. 
-
-This app is mainly to learn the following:
-
-1. Using state to render a loading icon while 'fetching' data
-2. Using await async functions
-
-We should display the information asked, address, DOB, age, and email
-
-*/
 function App() {
 
-  const [gender, updateGender] = useState("")
+  const [gender, updateGender] = useState(null)
   const [age, updateAge] = useState(null)
-  const [location, updateLocation] = useState("US")
+  const [location, updateLocation] = useState(null)
   const [value, setValue] = useState(18);
   const [user, updateUser] = useState(null)
+
+  //Determines the users window size and changes layout accordingly
+  const [isMobile, toggleMobile] = useState()
+  const [width, setWidth] = useState(window.innerWidth);
 
   const [loading, setLoading] = useState(false)
 
   async function retrieveID() {
-    updateUser(null)
     let api = 'https://randomuser.me/api/?gender=' + gender + '&nat=' + location + '&age=' + age
     setLoading(true);
     let tempUser = null
@@ -49,83 +39,169 @@ function App() {
         "id": response.data.results[0].id.value
       }
     }).catch(response => {
+      updateUser(null)
       setLoading(false)
     })
 
     const delay = (ms) => new Promise(r => setTimeout(r, ms))
-    await delay(3000)
-    setLoading(false)
-    updateUser(tempUser)
+    await delay(3000).then(() =>{
+      updateUser(tempUser)
+      setLoading(false)
+    }).catch((err) => {
+      updateUser(null)
+      setLoading(false)
+    })
   }
-  
+
   const sliderSettings = {
     start: 18,
     min: 18,
-    max: 115,
+    max: 80,
     step: 1,
     onChange: value => {
       updateAge(value);
       setValue(value)
     }
   };
+
+  const countryOptions = [
+    { key: 'AU', value: 'AU', text: 'Australia' },
+    { key: 'BR', value: 'BR', text: 'Brazil' },
+    { key: 'CA', value: 'CA', text: 'Canada' },
+    { key: 'DE', value: 'DE', text: 'Germany' },
+    { key: 'DK', value: 'DK', text: 'Denmark' },
+    { key: 'ES', value: 'ES', text: 'Spain' },
+    { key: 'FI', value: 'FI', text: 'Finland' },
+    { key: 'FR', value: 'FR', text: 'France' },
+    { key: 'GB', value: 'GB', text: 'United Kingdom' },
+    { key: 'IE', value: 'IE', text: 'Ireland' },
+    { key: 'IR', value: 'IR', text: 'Iran' },
+    { key: 'NL', value: 'NL', text: 'Netherlands' },
+    { key: 'NZ', value: 'NZ', text: 'New Zealand' },
+    { key: 'TR', value: 'TR', text: 'United States' },
+  ]
+
+  function changeLocation(e, data) {
+    updateLocation(data.value)
+  }
+
+  //Handles resizing width
+useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+});
+
+//Determines if mobile
+useEffect(() => {
+    if (width <= 812) {
+        toggleMobile(true)
+    } else {
+      toggleMobile(false)
+    }
+}, [width]);
+console.log(user)
+console.log(loading)
   return (
     <Container>
+      <div styles="padding:10px"></div>
+      <Header as="h2">Identity Generator</Header>
+      <Divider />
       {loading == false && user == null && <div>
-        <div styles="padding:10px"></div>
-        <Header as="h2">Identity Generator</Header>
-        <Divider />
-        <div>
-          <Header
-            as='h3'
-            content='Gender'
-          />
-          <Button basic={!(gender == "male")} color='blue' onClick={() => updateGender("male")}>
-            <Icon name="male">
-            </Icon>
-            Male
+
+        <Grid>
+          <Grid.Column width={isMobile ? 6 : 8}>
+            <div>
+              <Header
+                as='h3'
+                content='Gender'
+              />
+              <Button basic={!(gender == "male")} color='blue' onClick={() => updateGender("male")}>
+              {!isMobile &&
+                <Icon name="male">
+                </Icon>
+              }
+              
+              {!isMobile ? "Male" : "M"}
           </Button>
-          <Button basic={!(gender == "female")} color='pink' onClick={() => updateGender("female")}>
-            <Icon name="female">
-            </Icon>
-            Female
+              <Button basic={!(gender == "female")} color='pink' onClick={() => updateGender("female")}>
+                {!isMobile &&
+                <Icon name="female">
+                </Icon>
+                }
+              
+              {!isMobile ? "Female" : "F"}
           </Button>
-        </div>
-        <br></br>
-        <div>
-          <Header
-            as='h3'
-            content='Gender'
+            </div>
+          </Grid.Column>
+          <Grid.Column width={isMobile ? 10 : 8}>
+            <Header
+              as='h3'
+              content="Location"
+            />
+            <Select onChange={changeLocation} placeholder='Select your country' options={countryOptions} />
+          </Grid.Column>
+        </Grid>
+
+        <Grid.Column>
+            <div>
+              <Grid>
+                <Grid.Column floated='left' width={14}>
+                  <Header
+                    as='h3'
+                    content='Age'
+                  />
+                </Grid.Column>
+                <Grid.Column floated='right' width={2}>
+                  <Header
+                    as='h3'
+                    disabled
+                    content={age}
+                  />
+                </Grid.Column>
+                <Grid.Column width={16}>
+                  <Slider value={value} color="blue" settings={sliderSettings} />
+                </Grid.Column>
+              </Grid>
+            </div>
+          </Grid.Column>
+
+          <br></br>
+          <Transition visible={age !== null && gender !== null && location !== null} animation='fade left' duration={1000}>
+          <Button
+                floated='right'
+                content="Generate"
+                size="medium"
+                icon="arrow circle right"
+                onClick={() => retrieveID()}
+                labelPosition="right"
           />
-          <Slider value={value} color="blue" settings={sliderSettings} />
-        </div>
-        <br></br>
-        <div>
-          <label for="locations">Choose a location: </label>
-          <select id="locations" value={location} onChange={(e) => updateLocation(e.target.value)}>
-            <option value="AU">Australia (AU)</option>
-            <option value="NZ">New Zealand (NZ)</option>
-            <option value="GB">United Kingdom (GB)</option>
-            <option selected value="US">United States (US)</option>
-          </select>
-        </div>
-        <br></br>
-        {age && location && gender &&
-          <button onClick={() => retrieveID()}>Submit</button>
-        }
+          </Transition>
+        
       </div>}
 
-      {user === null && loading === true &&
+     
+       <Transition visible={loading && user !== null} animation='fade left' duration={500}>
         <Dimmer active inverted>
           <Loader inverted>Generating a new identity...</Loader>
         </Dimmer>
-      }
+      </Transition>
 
-      {user != null && loading === false &&
-        <div>
+      <Transition visible={user !== null && loading === false} animation='fade left' duration={1000}>
+        <Container>
           <User user={user}></User>
-          <button onClick={() => retrieveID()}> Generate New User </button>
-        </div>
-      }
+          <Button
+                floated='right'
+                content="Regenerate"
+                size="medium"
+                icon="refresh"
+                onClick={() => retrieveID()}
+                labelPosition="right"
+          />
+        </Container>
+      </Transition>
     </Container>
   );
 }
