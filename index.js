@@ -25,7 +25,7 @@ function App() {
   const [gender, updateGender] = useState("")
   const [age, updateAge] = useState(null)
   const [location, updateLocation] = useState("US")
-  const [value, setValue] = useState(5);
+  const [value, setValue] = useState(18);
 
   const [user, updateUser] = useState(null)
 
@@ -62,10 +62,9 @@ function App() {
     setLoading(false)
     updateUser(tempUser)
   }
-  console.log(gender)
   console.log(value)
     const sliderSettings = {
-    start: 2,
+    start: 18,
     min: 18,
     max: 115,
     step: 1,
