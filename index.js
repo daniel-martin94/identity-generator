@@ -5,6 +5,7 @@ import Hello from './Hello';
 import './style.css';
 import User from './User'
 import { Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon} from 'semantic-ui-react'
+import { Slider } from "react-semantic-ui-range";
 
 
 /*
@@ -24,6 +25,7 @@ function App() {
   const [gender, updateGender] = useState("")
   const [age, updateAge] = useState(null)
   const [location, updateLocation] = useState("US")
+  const [value, setValue] = useState(5);
 
   const [user, updateUser] = useState(null)
 
@@ -61,6 +63,16 @@ function App() {
     updateUser(tempUser)
   }
   console.log(gender)
+  console.log(value)
+    const sliderSettings = {
+    start: 2,
+    min: 18,
+    max: 115,
+    step: 1,
+    onChange: value => {
+      setValue(value);
+    }
+  };
   return (
     <Container>
       {loading == false && user == null && <div>
@@ -86,6 +98,7 @@ function App() {
         <br></br>
         <div>
           <label>Choose an age range: </label>
+          <Slider value={value} color="red" settings={sliderSettings} />
           <button onClick={(e) => changeAge(18, 25)}>18 to 25</button>
           <button onClick={(e) => changeAge(26, 35)}>26 to 35</button>
           <button onClick={(e) => changeAge(36, 55)}>36 to 55</button>
