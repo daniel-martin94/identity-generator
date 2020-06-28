@@ -1,10 +1,10 @@
 # react-obj68m
 
-# Welcome to the Dream Taco Shop Code Repo :rainbow: :taco:
+# Welcome to the Dream Taco Shop Code Repo :id:
 
-This is the offical code repo for the 'Dream Taco Shop' a simple and elegant order form for building and your dream tacos.
+This is a code repo for a identity generator
 
-This application built using [React](https://reactjs.org/) and a [community driven taco api](https://github.com/sinker/tacofancy)
+This application built using [React](https://reactjs.org/) and a [free identity api](https://randomuser.me/)
   
 ### Prerequisites
 In order to run this project locally, you should have the following installed:
@@ -20,10 +20,8 @@ Note:
 3) Install Dependencies with the command: `npm install`
 4) Visit http://localhost:3000
 
-Start Building! :rainbow: :taco:
+Have fun! :id:
 
 [Working Demo](https://identity-generator-obj68m.stackblitz.io/)
 
-[StackBlitz](https://stackblitz.com/edit/taco-order-form-fw7dpe)
-
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-obj68m)
+[StackBlitz](https://stackblitz.com/edit/identity-generator-obj68m)
