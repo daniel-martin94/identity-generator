@@ -106,8 +106,6 @@ useEffect(() => {
       toggleMobile(false)
     }
 }, [width]);
-console.log(user)
-console.log(loading)
   return (
     <Container>
       <div styles="padding:10px"></div>
