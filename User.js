@@ -27,7 +27,7 @@ const User = (props) => {
     updateBirthday(months[readableBirthday.getMonth()] + " " + readableBirthday.getUTCDate() + ", " + readableBirthday.getUTCFullYear())
   }, [])
   return (
-      <Card>
+      <Card centered>
         <Image src={user.photo} wrapped ui={false} />
         <Card.Content>
           <Card.Header>{user.name}</Card.Header>

@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import Hello from './Hello';
 import './style.css';
 import User from './User'
-import { Transition, Dimmer, Loader, Image, Segment, Container, Divider, Header, Button, Icon, Grid, Select, Button } from 'semantic-ui-react'
+import { Transition, Dimmer, Loader, Image, Container, Divider, Header, Button, Icon, Grid, Select, Button } from 'semantic-ui-react'
 import { Slider } from "react-semantic-ui-range";
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
         "photo": response.data.results[0].picture.large,
         "id": response.data.results[0].id.value
       }
+      
     }).catch(response => {
       updateUser(null)
       setLoading(false)
@@ -51,6 +52,9 @@ function App() {
       updateUser(null)
       setLoading(false)
     })
+
+    // updateUser(tempUser)
+    // setLoading(false)
   }
 
   const sliderSettings = {
@@ -182,12 +186,11 @@ console.log(loading)
         
       </div>}
 
-     
-       <Transition visible={loading && user !== null} animation='fade left' duration={500}>
+     {loading === true &&
         <Dimmer active inverted>
           <Loader inverted>Generating a new identity...</Loader>
         </Dimmer>
-      </Transition>
+      }
 
       <Transition visible={user !== null && loading === false} animation='fade left' duration={1000}>
         <Container>
