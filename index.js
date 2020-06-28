@@ -57,7 +57,7 @@ function App() {
     setLoading(false)
     updateUser(tempUser)
   }
-  console.log(age)
+  
   const sliderSettings = {
     start: 18,
     min: 18,
